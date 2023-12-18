@@ -5,6 +5,7 @@ const db = require("./dbConfig"); // 데이터베이스 연결 설정 불러오�
 // 사용자의 장바구니 목록 조회
 router.get("/:userId", (req, res) => {
   const userId = req.params.userId;
+  console.log(`${userId}`);
 
   // 장바구니 목록 조회 쿼리
   const query = `
@@ -23,6 +24,7 @@ router.get("/:userId", (req, res) => {
     }
 
     // 결과 반환
+    console.log(`cart items : `, results);
     res.json(results);
   });
 });
