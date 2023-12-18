@@ -1,26 +1,16 @@
 // 필요한 모듈 불러오기
 const express = require("express");
-const mysql = require("mysql");
-
-// Express 애플리케이션 생성
 const app = express();
+const port = 3000;
+const cartRouter = require("./cartRouter");
+const paymentRouter = require("./paymentRouter");
 
-// MySQL 데이터베이스 연결 설정
-const db = mysql.createConnection({
-  host: "localhost", // MariaDB 서버가 실행 중인 호스트
-  port: "3307",
-  user: "root", // 데이터베이스 사용자 이름
-  password: "asd123", // 해당 사용자의 비밀번호 (실제 비밀번호로 대체해야 함)
-  database: "testlogin", // 연결할 데이터베이스 이름
-});
+//라우터 모듈 불러오기
+app.use("/api/cart", cartRouter);
+app.use("/api/payments", paymentRouter);
 
-// 데이터베이스 연결
-db.connect((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log("MySQL Connected...");
-});
+// 데이터베이스 설정 불러오기 (필요한 경우)
+// const db = require('./dbConfig');
 
 // 기본 라우트
 app.get("/", (req, res) => {
@@ -28,6 +18,6 @@ app.get("/", (req, res) => {
 });
 
 // 서버 시작
-app.listen("3000", () => {
-  console.log(`http://localhost:3000`);
+app.listen(port, () => {
+  console.log(`http://localhost:${port}`);
 });
