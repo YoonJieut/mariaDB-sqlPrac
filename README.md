@@ -41,6 +41,92 @@ http://localhost:3000/api/payments/2
 
 ## db 설정이 끝났으면 server.js와 라우터에 추가하기
 
+### 현재 프로젝트에서 사용한 디비 쿼리문
+
+```
+-- Active: 1701075485721@@127.0.0.1@3307@testlogin
+
+CREATE TABLE
+    User (
+        userID INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(50) NOT NULL,
+        password VARCHAR(50) NOT NULL,
+        email VARCHAR(100),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+CREATE TABLE
+    Item (
+        itemID INT AUTO_INCREMENT PRIMARY KEY,
+        itemName VARCHAR(100) NOT NULL,
+        price DECIMAL(10, 2) NOT NULL,
+        description TEXT,
+        added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+CREATE TABLE
+    Cart (
+        cartID INT AUTO_INCREMENT PRIMARY KEY,
+        userID INT,
+        itemID INT,
+        quantity INT NOT NULL,
+        added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (userID) REFERENCES User(userID),
+        FOREIGN KEY (itemID) REFERENCES Item(itemID)
+    );
+
+CREATE TABLE
+    Payment (
+        paymentID INT AUTO_INCREMENT PRIMARY KEY,
+        userID INT,
+        totalAmount DECIMAL(10, 2) NOT NULL,
+        paymentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (userID) REFERENCES User(userID)
+    );
+
+-- 더미 데이터를 위한 작성문
+
+INSERT INTO
+    User (username, password, email)
+VALUES (
+        'user1',
+        'password1',
+        'user1@example.com'
+    ), (
+        'user2',
+        'password2',
+        'user2@example.com'
+    ), (
+        'user3',
+        'password3',
+        'user3@example.com'
+    );
+
+INSERT INTO
+    Item (itemName, price, description)
+VALUES (
+        'Item 1',
+        100.00,
+        'Description for Item 1'
+    ), (
+        'Item 2',
+        150.50,
+        'Description for Item 2'
+    ), (
+        'Item 3',
+        200.00,
+        'Description for Item 3'
+    );
+
+INSERT INTO
+    Cart (userID, itemID, quantity)
+VALUES (1, 1, 2), (1, 3, 1), (2, 2, 3), (3, 1, 1);
+
+INSERT INTO
+    Payment (userID, totalAmount)
+VALUES (1, 300.00), (2, 451.50), (3, 200.00);
+```
+
 ### db 관련 쿼리문 저장용
 
 -- Active: 1701075485721@@127.0.0.1@3307@mydatabase
